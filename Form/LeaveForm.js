@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TextInput, ScrollView, View, TouchableNativeFeedback } from 'react-native';
+import { Text, TextInput, ScrollView, View, TouchableNativeFeedback, Button } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker';
 
@@ -30,7 +30,11 @@ render() {
 
  return (
    <ScrollView style={{padding: 30}}>
-     <Text style={{fontSize: 35, fontWeight: 'bold', color: '#00b9c6 '}}>Leave Form</Text>
+     <Button
+       onPress={() => this.props.navigation.navigate('ClaimForm')}
+       title="< Claim Form"
+     />
+     <Text style={{fontSize: 35, fontWeight: 'bold', color: '#00b9c6', marginTop: 15}}>Leave Form</Text>
 
      <Text style={{fontSize: 20, marginTop: 15}}>From Date:</Text>
      <DatePicker
@@ -100,7 +104,7 @@ render() {
      <TouchableNativeFeedback
        onPress={this._onPressButton}
        background={TouchableNativeFeedback.SelectableBackground()}>
-       <View style={{width: 150, height: 45, marginTop: 20, marginBottom: 80, backgroundColor: '#00b9c6 ', justifyContent: 'center', alignItems: 'center'}}>
+       <View style={{width: 150, height: 45, marginTop: 20, marginBottom: 80, backgroundColor: '#00b9c6', justifyContent: 'center', alignItems: 'center'}}>
          <Text style={{fontSize: 25, fontWeight: 'bold', color: 'white'}}>Submit</Text>
        </View>
      </TouchableNativeFeedback>

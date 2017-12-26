@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TextInput, ScrollView, Dimensions, StyleSheet } from 'react-native';
+import { Text, TextInput, ScrollView, Dimensions, StyleSheet, TouchableNativeFeedback, View, Button } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions';
 import MapView from 'react-native-maps';
 import DatePicker from 'react-native-datepicker'
@@ -56,9 +56,14 @@ export default class ClaimForm extends Component {
   render() {
     return (
       <ScrollView style={{ padding: 30 }}>
-        <Text style={{fontSize: 30, fontWeight: 'bold'}}>Claim Form</Text>
+        <Button
+          onPress={() => this.props.navigation.navigate('LeaveForm')}
+          title="Leave Form >"
+        />
 
-        <Text style={{fontSize: 20}}>From Date:</Text>
+        <Text style={{fontSize: 30, fontWeight: 'bold', color: '#00b9c6', marginTop: 15}}>Claim Form</Text>
+
+        <Text style={{fontSize: 20, marginTop: 15}}>From Date:</Text>
         <DatePicker
           style={{width: 200}}
           date={this.state.startDate}
@@ -198,6 +203,13 @@ export default class ClaimForm extends Component {
         placeholder="Type here to translate!"
         onChangeText={(text) => this.setState({text})}
       />
+           <TouchableNativeFeedback
+             onPress={this._onPressButton}
+             background={TouchableNativeFeedback.SelectableBackground()}>
+             <View style={{width: 150, height: 45, marginTop: 20, marginBottom: 80, backgroundColor: '#00b9c6', justifyContent: 'center', alignItems: 'center'}}>
+               <Text style={{fontSize: 25, fontWeight: 'bold', color: 'white'}}>Submit</Text>
+             </View>
+           </TouchableNativeFeedback>
       </ScrollView>
     );
   }

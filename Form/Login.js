@@ -1,8 +1,20 @@
 import React, { Component }  from 'react';
 import { KeyboardAvoidingView, StyleSheet, TextInput, Text, View, Button, Alert, ActivityIndicator, Image } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { TabNavigator } from 'react-navigation';
 
 export default class Login extends Component {
+  static navigationOptions = {
+    tabBarVisible: false,
+    swipeEnabled: false,
+    tabBarLabel: 'Logout',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('./jessie.png')}
+        style={[styles.icon, {tintColor: tintColor}]}
+      />
+    ),
+  };
+
   state = {
     username: '',
     password: '',

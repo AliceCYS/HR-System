@@ -3,6 +3,7 @@ import { Text, TextInput, ScrollView, Dimensions, StyleSheet } from 'react-nativ
 import MapViewDirections from 'react-native-maps-directions';
 import MapView from 'react-native-maps';
 import DatePicker from 'react-native-datepicker'
+import { TabNavigator } from 'react-navigation';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -13,6 +14,16 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const GOOGLE_MAPS_APIKEY = 'AIzaSyCRoAxaJovSunRbGazRlTfVGtx67WJ2Htk';
 
 export default class ClaimForm extends Component {
+  static navigationOptions = {
+    tabBarLabel: 'Claims',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('./jessie.png')}
+        style={[styles.icon, {tintColor: tintColor}]}
+      />
+    ),
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -195,7 +206,14 @@ export default class ClaimForm extends Component {
       placeholder="Type here to translate!"
       onChangeText={(text) => this.setState({text})}
     />
-</ScrollView>
+  </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 26,
+    height: 26,
+  },
+});

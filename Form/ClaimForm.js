@@ -61,7 +61,7 @@ export default class ClaimForm extends Component {
         <Text style={{fontSize: 20}}>From Date:</Text>
         <DatePicker
           style={{width: 200}}
-          date={this.state.date}
+          date={this.state.startDate}
           mode="date"
           format="YYYY-MM-DD"
           confirmBtnText="Confirm"
@@ -84,7 +84,7 @@ export default class ClaimForm extends Component {
         <Text style={{fontSize: 20}}>To Date:</Text>
         <DatePicker
           style={{width: 200}}
-          date={this.state.date}
+          date={this.state.endDate}
           mode="date"
           placeholder="select date"
           format="YYYY-MM-DD"
@@ -102,7 +102,7 @@ export default class ClaimForm extends Component {
             }
             // ... You can check the source to find the other keys.
           }}
-          onDateChange={(endDte) => {this.setState({endDte})}}
+          onDateChange={(endDate) => {this.setState({endDate})}}
         />
 
         <Text style={{fontSize: 20}}>Time Out:</Text>
@@ -177,24 +177,28 @@ export default class ClaimForm extends Component {
               });
             }}
 
-          onError={(errorMessage) => {
-            // console.log('GOT AN ERROR');
-          }}
-        />
-      )}
-    </MapView>
+            onError={(errorMessage) => {
+              // console.log('GOT AN ERROR');
+            }}
+          />
+        )}
+      </MapView>
 
+      <Text style={{fontSize: 20}}>Mileage:</Text>
+      <TextInput
+        style={{height: 40}}
+        placeholder="Your Destination"
+        editable={false}
+        value={this.state.number + 'km'}
+      />
 
-
-    <Text style={{fontSize: 20}}>Mileage: {this.state.number} km</Text>
-
-    <Text style={{fontSize: 20}}>Fees:</Text>
-    <TextInput
-      style={{height: 40, marginBottom: 40}}
-      placeholder="Type here to translate!"
-      onChangeText={(text) => this.setState({text})}
-    />
-</ScrollView>
+      <Text style={{fontSize: 20}}>Fees:</Text>
+      <TextInput
+        style={{height: 40, marginBottom: 60}}
+        placeholder="Type here to translate!"
+        onChangeText={(text) => this.setState({text})}
+      />
+      </ScrollView>
     );
   }
 }

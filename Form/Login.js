@@ -1,5 +1,6 @@
 import React, { Component }  from 'react';
-import { ScrollView, StyleSheet, TextInput, Text, View, Button, Alert, ActivityIndicator } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, TextInput, Text, View, Button, Alert, ActivityIndicator, Image } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
 export default class Login extends Component {
   state = {
@@ -26,7 +27,7 @@ export default class Login extends Component {
         formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    Alert.alert(formBody);
+    this.props.navigation.navigate('ClaimForm', { user: this.state.username });
   }
 
   clearUsername = () => {
@@ -41,7 +42,8 @@ export default class Login extends Component {
 
   render() {
     return (
-      <ScrollView style={{padding: 30}}>
+      <KeyboardAvoidingView behavior={'position'} style={{padding: 30}}>
+        <Image source={require('./jessie.png')} />
 				<Text
 					style={{fontSize: 30}}>
 					Login
@@ -52,6 +54,7 @@ export default class Login extends Component {
 					onChangeText={(username) => this.setState({username})}
 					autoFocus={true}
 					onFocus={this.clearUsername}
+          style={{height: 40}}
 				/>
 				<TextInput
 					ref={component => this._password = component}
@@ -60,6 +63,7 @@ export default class Login extends Component {
 					secureTextEntry={true}
 					onFocus={this.clearPassword}
 					onSubmitEditing={this.userLogin}
+          style={{height: 40}}
 				/>
 				{!!this.state.message && (
 					<Text
@@ -70,11 +74,11 @@ export default class Login extends Component {
 				{this.state.isLoggingIn && <ActivityIndicator />}
 				<View style={{margin:7}} />
 				<Button
-					disabled={this.state.isLoggingIn||!this.state.username||!this.state.password}
+					disabled={!this.state.username||!this.state.password}
       		onPress={this.userLogin}
       		title="Submit"
       	/>
-	    </ScrollView>
+	    </KeyboardAvoidingView>
     )
   }
 }

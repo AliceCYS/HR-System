@@ -150,7 +150,7 @@ export default class ClaimForm extends Component {
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
           }}
-          style={{height: 400}}
+          style={{height: 300}}
           ref={c => this.mapView = c}
           onPress={this.onMapPress}
         >
@@ -194,7 +194,7 @@ export default class ClaimForm extends Component {
       placeholder="Type here to translate!"
       onChangeText={(text) => this.setState({text})}
     />
-    </ScrollView>
+</ScrollView>
     );
   }
 }

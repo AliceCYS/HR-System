@@ -26,7 +26,6 @@ export default class ClaimForm extends Component {
           longitude: -122.4053769,
         },
       ],
-      text: '',
       origin: 'HostAStay Berhad',
       destination: '',
       number: 0,
@@ -191,7 +190,7 @@ export default class ClaimForm extends Component {
 
     <Text style={{fontSize: 20}}>Fees:</Text>
     <TextInput
-      style={{height: 40}}
+      style={{height: 40, marginBottom: 40}}
       placeholder="Type here to translate!"
       onChangeText={(text) => this.setState({text})}
     />

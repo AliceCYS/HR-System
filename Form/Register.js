@@ -1,35 +1,35 @@
 import React, { Component }  from 'react';
 import { AsyncStorage, KeyboardAvoidingView, StyleSheet, TextInput, Text, View, Button, Alert, ActivityIndicator, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { Dropdown } from 'react-native-material-dropdown';
 
-export default class Login extends Component {
+export default class Register extends Component {
   state = {
     username: '',
     password: '',
-    isLoggingIn: false,
+    role: '',
+    dept: '',
+    manager: '',
     message: '',
     users: []
   }
 
-
-  static navigationOptions = {
-    header: null
-  }
+    static navigationOptions = {
+      title: 'Register'
+    }
   componentWillMount() {
-    const users = [
-      {username: 'jessie', password: '1234', role: 'admin', dept: 'hr', manager: 'jordan'},
-      {username: 'jordan', password: '1234', role: 'user', dept: 'co', manager: 'jessie'},
-      {username: 'jarrel', password: '1234', role: 'user', dept: 'op', manager: 'jordan'},
-      {username: 'janson', password: '1234', role: 'user', dept: 'it', manager: 'jordan'},
-      {username: 'damon', password: '1234', role: 'user', dept: 'op', manager: 'jeremy'},
-      {username: 'jayden', password: '1234', role: 'user', dept: 'tr', manager: 'jordan'},
-      {username: 'jeremy', password: '1234', role: 'user', dept: 'op', manager: 'jarrel'},
-      {username: 'alice', password: '1234', role: 'user', dept: 'it', manager: 'janson'},
-      {username: 'victoria', password: '1234', role: 'user', dept: 'it', manager: 'janson'},
-    ];
-
     this.setState({
-      users
+      users: [
+        {username: 'jessie', password: '1234', role: 'admin', dept: 'hr', manager: 'jordan'},
+        {username: 'jordan', password: '1234', role: 'user', dept: 'co', manager: 'jessie'},
+        {username: 'jarrel', password: '1234', role: 'user', dept: 'op', manager: 'jordan'},
+        {username: 'janson', password: '1234', role: 'user', dept: 'it', manager: 'jordan'},
+        {username: 'damon', password: '1234', role: 'user', dept: 'op', manager: 'jeremy'},
+        {username: 'jayden', password: '1234', role: 'user', dept: 'tr', manager: 'jordan'},
+        {username: 'jeremy', password: '1234', role: 'user', dept: 'op', manager: 'jarrel'},
+        {username: 'alice', password: '1234', role: 'user', dept: 'it', manager: 'janson'},
+        {username: 'victoria', password: '1234', role: 'user', dept: 'it', manager: 'janson'}
+      ]
     });
   }
 
@@ -52,8 +52,6 @@ export default class Login extends Component {
     formBody = formBody.join("&");
     if (this.state.users.filter(user => user.username === this.state.username).length > 0) {
       this.props.navigation.navigate('ClaimForm', { user: this.state.username });
-    } else {
-      this.props.navigation.navigate('Register');
     }
   }
 
@@ -67,14 +65,30 @@ export default class Login extends Component {
     this.setState({ message: '' });
   }
 
+  clearRole = () => {
+    this._role.setNativeProps({ text: '' });
+    this.setState({ message: '' });
+  }
+
+  clearDept = () => {
+    this._dept.setNativeProps({ text: '' });
+    this.setState({ message: '' });
+  }
+
+  clearManager= () => {
+    this._dept.setNativeProps({ text: '' });
+    this.setState({ message: '' });
+  }
+
   render() {
+    const depts = [
+      {value: 'it'},
+      {value: 'hr'},
+      {value: 'op'},
+      {value: 'tr'}
+    ]
     return (
       <KeyboardAvoidingView behavior={'position'} style={{padding: 30}}>
-        <Image source={require('./jessie.png')} />
-				<Text
-					style={{fontSize: 30}}>
-					Login
-				</Text>
 				<TextInput
 					ref={component => this._username = component}
 					placeholder='Username'
@@ -98,11 +112,29 @@ export default class Login extends Component {
 						{this.state.message}
 					</Text>
 				)}
-				{this.state.isLoggingIn && <ActivityIndicator />}
+        <TextInput
+					ref={component => this._role = component}
+					placeholder='Role'
+					onChangeText={(role) => this.setState({role})}
+					onFocus={this.clearRole}
+          style={{height: 40}}
+				/>
+        <Dropdown
+          label='Department'
+          data={depts}
+        />
+        <TextInput
+					ref={component => this._manager= component}
+					placeholder='Manager'
+					onChangeText={(Manager) => this.setState({Manager})}
+					onFocus={this.clearManager}
+          style={{height: 40}}
+				/>
+
 				<View style={{margin:7}} />
 				<Button
-					disabled={!this.state.username||!this.state.password}
-      		onPress={this.userLogin}
+					disabled={!this.state.username||!this.state.password||!this.state.role||!this.state.dept||!this.state.manager}
+      		onPress={this.userLReg}
       		title="Submit"
       	/>
 	    </KeyboardAvoidingView>

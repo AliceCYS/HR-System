@@ -6,6 +6,10 @@ import ClaimForm from './Form/ClaimForm';
 import ClaimFormApproval from './Form/ClaimFormApproval';
 import LeaveForm from './Form/LeaveForm';
 import LeaveFormApproval from './Form/LeaveFormApproval';
+import { StatusBar } from 'react-native';
+
+StatusBar.setHidden(true);
+console.disableYellowBox = true;
 
 const SimpleApp = StackNavigator({
  Login: { screen: Login },

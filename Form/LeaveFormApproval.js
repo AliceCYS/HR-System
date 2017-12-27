@@ -34,7 +34,11 @@ render() {
 
  return (
    <ScrollView style={{padding: 30}}>
-     <Text style={{fontSize: 35, fontWeight: 'bold', color: '#00b9c6'}}>Leave Form</Text>
+     <Button
+       onPress={() => this.props.navigation.navigate('ClaimFormApproval')}
+       title="Claim Approval"
+     />
+   <Text style={{fontSize: 35, fontWeight: 'bold', color: '#00b9c6', marginTop: 15}}>Leave Approval</Text>
 
      <Text style={{fontSize: 20, marginTop: 15}}>From Date:</Text>
      <TextInput

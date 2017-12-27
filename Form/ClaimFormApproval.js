@@ -25,9 +25,13 @@ export default class ClaimFormApproval extends Component {
   render() {
     return (
       <ScrollView style={{ padding: 30 }}>
-        <Text style={{fontSize: 30, fontWeight: 'bold'}}>Admin Approval Form</Text>
+        <Button
+          onPress={() => this.props.navigation.navigate('LeaveFormApproval')}
+          title="Leave Approval"
+        />
+        <Text style={{fontSize: 30, fontWeight: 'bold', color: '#00b9c6', marginTop: 15}}>Admin Approval Form</Text>
 
-        <Text style={{fontSize: 20}}>From Date:</Text>
+        <Text style={{fontSize: 20, marginTop: 15}}>From Date:</Text>
         <TextInput
           style={{height: 40}}
           editable={false}

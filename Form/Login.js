@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import { KeyboardAvoidingView, StyleSheet, TextInput, Text, View, Button, Alert, ActivityIndicator, Image } from 'react-native';
+import { AsyncStorage, KeyboardAvoidingView, StyleSheet, TextInput, Text, View, Button, Alert, ActivityIndicator, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 export default class Login extends Component {
@@ -7,7 +7,35 @@ export default class Login extends Component {
     username: '',
     password: '',
     isLoggingIn: false,
-    message: ''
+    message: '',
+    users: []
+  }
+
+  componentWillMount() {
+    const users = [
+      {username: 'jessie', password: '1234', role: 'admin', dept: 'hr', manager: 'jordan'},
+      {username: 'jordan', password: '1234', role: 'user', dept: 'co', manager: 'jessie'},
+      {username: 'jarrel', password: '1234', role: 'user', dept: 'op', manager: 'jordan'},
+      {username: 'janson', password: '1234', role: 'user', dept: 'it', manager: 'jordan'},
+      {username: 'damon', password: '1234', role: 'user', dept: 'op', manager: 'jeremy'},
+      {username: 'jayden', password: '1234', role: 'user', dept: 'tr', manager: 'jordan'},
+      {username: 'jeremy', password: '1234', role: 'user', dept: 'op', manager: 'jarrel'},
+      {username: 'alice', password: '1234', role: 'user', dept: 'it', manager: 'janson'},
+      {username: 'victoria', password: '1234', role: 'user', dept: 'it', manager: 'janson'},
+    ];
+
+    this.setState({
+      users
+    });
+  }
+
+  componentDidMount() {
+    AsyncStorage.setItem('users', JSON.stringify(this.state.users), () => {
+      AsyncStorage.getItem('users', (err, res) => {
+        console.log(res);
+        Alert.alert(JSON.parse(res)[3].username);
+      })
+    })
   }
 
   userLogin = () => {
@@ -27,7 +55,9 @@ export default class Login extends Component {
         formBody.push(encodedKey + "=" + encodedValue);
     }
     formBody = formBody.join("&");
-    this.props.navigation.navigate('ClaimForm', { user: this.state.username });
+    if (this.state.users.filter(user => user.username === this.state.username).length > 0) {
+      this.props.navigation.navigate('ClaimForm', { user: this.state.username });
+    }
   }
 
   clearUsername = () => {

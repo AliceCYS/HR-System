@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
-import { AsyncStorage, KeyboardAvoidingView, StyleSheet, TextInput, Text, View, Button, Alert, ActivityIndicator, Image } from 'react-native';
+import { Keyboard, AsyncStorage, KeyboardAvoidingView, StyleSheet, TextInput, Text, View, Alert, ActivityIndicator, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { Button } from 'react-native-elements';
 
 export default class Login extends Component {
   state = {
@@ -17,7 +18,7 @@ export default class Login extends Component {
   }
   componentWillMount() {
     const users = [
-      {username: 'jessie', password: '1234', role: 'admin', dept: 'hr', manager: 'jordan'},
+      {username: 'Jessie', password: '1234', role: 'admin', dept: 'hr', manager: 'jordan'},
       {username: 'jordan', password: '1234', role: 'user', dept: 'co', manager: 'jessie'},
       {username: 'jarrel', password: '1234', role: 'user', dept: 'op', manager: 'jordan'},
       {username: 'janson', password: '1234', role: 'user', dept: 'it', manager: 'jordan'},
@@ -51,7 +52,10 @@ export default class Login extends Component {
     }
     formBody = formBody.join("&");
     if (this.state.users.filter(user => user.username === this.state.username).length > 0) {
-      this.props.navigation.navigate('ClaimForm', { user: this.state.username });
+      Keyboard.dismiss;
+      AsyncStorage.setItem('loggedInAs', this.state.username, () => {
+        this.props.navigation.navigate('Landing');
+      });
     } else {
       this.props.navigation.navigate('Register');
     }
@@ -104,6 +108,8 @@ export default class Login extends Component {
 					disabled={!this.state.username||!this.state.password}
       		onPress={this.userLogin}
       		title="Submit"
+          backgroundColor="#01bac6"
+          borderRadius={5}
       	/>
 	    </KeyboardAvoidingView>
     )

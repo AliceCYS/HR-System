@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
-import { Text, TextInput, ScrollView, View, TouchableNativeFeedback } from 'react-native';
+import { Text, TextInput, ScrollView, View, TouchableNativeFeedback, Button, Alert } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
 export default class LeaveFormApproval extends Component {
  constructor(props) {
   super(props);
   this.state = {
-    reasons: 'Fever',
-    days: 1,
+    reasons: 'Travel',
+    days: 3,
     balanceBefore: 14,
     balanceAfter: 0,
     fromDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
-    toDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + (new Date().getDate() + 1)
+    toDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + (new Date().getDate() + 2)
    };
    this.setChecked = this.setChecked.bind(this);
  }
 
+
+ static navigationOptions = {
+   header: null
+ }
  setChecked() {
    this.setState({checked: !this.state.checked});
  }ss
@@ -34,11 +38,7 @@ render() {
 
  return (
    <ScrollView style={{padding: 30}}>
-     <Button
-       onPress={() => this.props.navigation.navigate('ClaimFormApproval')}
-       title="Claim Approval"
-     />
-   <Text style={{fontSize: 35, fontWeight: 'bold', color: '#00b9c6', marginTop: 15}}>Leave Approval</Text>
+   <Text style={{fontSize: 35, fontWeight: 'bold', color: '#00b9c6'}}>Leave Approval</Text>
 
      <Text style={{fontSize: 20, marginTop: 15}}>From Date:</Text>
      <TextInput
@@ -58,7 +58,7 @@ render() {
      <TextInput
        style={{height: 40}}
        editable={false}
-       value={leave[2].value}
+       value={leave[0].value}
      />
 
      <Text style={{fontSize: 20, marginTop: 15}}>Reasons:</Text>
@@ -72,7 +72,7 @@ render() {
      <TextInput
        style={{height: 40}}
        editable={false}
-       value={((new Date(this.state.toDate) - new Date(this.state.fromDate)) / (1000 * 60 * 60 * 24)).toString()}
+       value={(((new Date(this.state.toDate) - new Date(this.state.fromDate)) / (1000 * 60 * 60 * 24) )+1).toString()}
      />
 
      <Text style={{fontSize: 20, marginTop: 20}}>Balance (Before):</Text>
@@ -86,7 +86,7 @@ render() {
      <TextInput
        style={{height: 40}}
        editable={false}
-       value={(this.state.balanceBefore - (((new Date(this.state.toDate) - new Date(this.state.fromDate)) / (1000 * 60 * 60 * 24)))).toString()}
+       value={(this.state.balanceBefore - (((new Date(this.state.toDate) - new Date(this.state.fromDate)) / (1000 * 60 * 60 * 24))+1)).toString()}
      />
 
      <CheckBox
@@ -98,10 +98,18 @@ render() {
      />
 
      <TouchableNativeFeedback
-       onPress={this._onPressButton}
+      onPress={() => { Alert.alert(
+     'Leave Successfully Approved!',
+     'Thank you.',
+     [
+     {text: 'Ok!', onPress: () => {this.props.navigation.goBack()}}
+     ],
+     { cancelable: false }
+     )
+}}
        background={TouchableNativeFeedback.SelectableBackground()}>
-       <View style={{width: 150, height: 45, marginTop: 20, marginBottom: 80, backgroundColor: '#00b9c6', justifyContent: 'center', alignItems: 'center'}}>
-         <Text style={{fontSize: 25, fontWeight: 'bold', color: 'white'}}>Submit</Text>
+       <View style={{width: 150, height: 45, borderRadius: 5, marginTop: 20, marginBottom: 80, backgroundColor: '#00b9c6', justifyContent: 'center', alignItems: 'center'}}>
+         <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}}>Submit</Text>
        </View>
      </TouchableNativeFeedback>
    </ScrollView>

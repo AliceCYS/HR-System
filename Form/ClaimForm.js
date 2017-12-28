@@ -28,12 +28,22 @@ export default class ClaimForm extends Component {
       ],
       origin: 'HostAStay Berhad',
       destination: '',
-      number: 0,
+      distance: 0,
       startDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
       endDate: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
-      time: new Date().getHours() + ':' + new Date().getMinutes()
+      time: new Date().getHours() + ':' + new Date().getMinutes(),
+      lodging: 0,
+      meal: 0,
+      other: 0,
+      entertain: 0,
+      tol: 0,
+      total: 44.91
     };
     this.mapView = null;
+  }
+
+  static navigationOptions = {
+    header: null
   }
 
   onMapPress = (e) => {
@@ -56,16 +66,12 @@ export default class ClaimForm extends Component {
   render() {
     return (
       <ScrollView style={{ padding: 30 }}>
-        <Button
-          onPress={() => this.props.navigation.navigate('LeaveForm')}
-          title="Leave Form >"
-        />
 
-        <Text style={{fontSize: 30, fontWeight: 'bold', color: '#00b9c6', marginTop: 15}}>Claim Form</Text>
+        <Text style={{fontSize: 30, fontWeight: 'bold', color: '#00b9c6'}}>Claim Form</Text>
 
         <Text style={{fontSize: 20, marginTop: 15}}>From Date:</Text>
         <DatePicker
-          style={{width: 200}}
+          style={{width: 300}}
           date={this.state.startDate}
           mode="date"
           format="YYYY-MM-DD"
@@ -88,7 +94,7 @@ export default class ClaimForm extends Component {
 
         <Text style={{fontSize: 20}}>To Date:</Text>
         <DatePicker
-          style={{width: 200}}
+          style={{width: 300}}
           date={this.state.endDate}
           mode="date"
           placeholder="select date"
@@ -112,7 +118,7 @@ export default class ClaimForm extends Component {
 
         <Text style={{fontSize: 20}}>Time Out:</Text>
         <DatePicker
-          style={{width: 200}}
+          style={{width: 300}}
           date={this.state.time}
           mode="time"
           format="HH:mm"
@@ -171,7 +177,7 @@ export default class ClaimForm extends Component {
             strokeWidth={3}
             strokeColor="hotpink"
             onReady={(result) => {
-              this.setState({number: result.distance}),
+              this.setState({distance: result.distance}),
               this.mapView.fitToCoordinates(result.coordinates, {
                 edgePadding: {
                   right: (width / 20),
@@ -189,25 +195,76 @@ export default class ClaimForm extends Component {
         )}
       </MapView>
 
-      <Text style={{fontSize: 20}}>Mileage:</Text>
+      <Text style={{fontSize: 20}}>Distance:</Text>
       <TextInput
         style={{height: 40}}
         placeholder="Your Destination"
         editable={false}
-        value={this.state.number + 'km'}
+        value={this.state.distance + ' km'}
       />
 
-      <Text style={{fontSize: 20}}>Fees:</Text>
+      <Text style={{fontSize: 20}}>Mileage Claim: (RM)</Text>
+      <TextInput
+        style={{height: 40}}
+        editable={false}
+        value={'RM ' + (parseFloat(this.state.distance) * 0.5).toFixed(2)}
+      />
+
+      <Text style={{fontSize: 20}}>Lodging:</Text>
+      <TextInput
+        style={{height: 40}}
+        placeholder="Accomodation ..."
+        onChangeText={(lodging) => this.setState({lodging})}
+      />
+
+      <Text style={{fontSize: 20}}>Tol:</Text>
+      <TextInput
+        style={{height: 40}}
+        placeholder="Tol Fees ..."
+        onChangeText={(tol) => this.setState({tol})}
+      />
+
+      <Text style={{fontSize: 20}}>Meal:</Text>
+      <TextInput
+        style={{height: 40}}
+        placeholder="Breakfast, Lunch, Dinner ..."
+        onChangeText={(meal) => this.setState({meal})}
+      />
+
+      <Text style={{fontSize: 20}}>Entertainment:</Text>
+      <TextInput
+        style={{height: 40}}
+        placeholder="Entertainment ..."
+        onChangeText={(entertain) => this.setState({entertain})}
+      />
+
+      <Text style={{fontSize: 20}}>Other:</Text>
+      <TextInput
+        style={{height: 40}}
+        placeholder="Other ..."
+        onChangeText={(other) => this.setState({other})}
+      />
+
+      <Text style={{fontSize: 20}}>Total:</Text>
       <TextInput
         style={{height: 40, marginBottom: 60}}
-        placeholder="Type here to translate!"
-        onChangeText={(text) => this.setState({text})}
+        editable={false}
+        value={'RM ' + this.state.total}
       />
-           <TouchableNativeFeedback
-             onPress={this._onPressButton}
+
+      <TouchableNativeFeedback
+       onPress={() => { Alert.alert(
+      'Claim Successfully Submitted!',
+      'Please wait for approval.',
+      [
+      {text: 'Ok! Thank you Jessie!', onPress: () => {this.props.navigation.goBack()}}
+      ],
+      { cancelable: false }
+      )
+}}
              background={TouchableNativeFeedback.SelectableBackground()}>
-             <View style={{width: 150, height: 45, marginTop: 20, marginBottom: 80, backgroundColor: '#00b9c6', justifyContent: 'center', alignItems: 'center'}}>
-               <Text style={{fontSize: 25, fontWeight: 'bold', color: 'white'}}>Submit</Text>
+             <View style={{width: 150, height: 45, borderRadius: 5, marginTop: 20, marginBottom: 80, backgroundColor: '#00b9c6', justifyContent: 'center', alignItems: 'center'}}>
+               <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}}>Submit</Text>
              </View>
            </TouchableNativeFeedback>
       </ScrollView>

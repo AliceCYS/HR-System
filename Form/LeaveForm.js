@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, TextInput, ScrollView, View, TouchableNativeFeedback, Button } from 'react-native';
+import { Alert, Text, TextInput, ScrollView, View, TouchableNativeFeedback, Button } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import DatePicker from 'react-native-datepicker';
 
@@ -16,6 +16,10 @@ export default class LeaveForm extends Component {
    };
  }
 
+ static navigationOptions = {
+   header: null
+ }
+
 render() {
  let leave = [
    {value: 'Annual Leave'},
@@ -30,11 +34,7 @@ render() {
 
  return (
    <ScrollView style={{padding: 30}}>
-     <Button
-       onPress={() => this.props.navigation.navigate('ClaimForm')}
-       title="< Claim Form"
-     />
-     <Text style={{fontSize: 35, fontWeight: 'bold', color: '#00b9c6', marginTop: 15}}>Leave Form</Text>
+     <Text style={{fontSize: 35, fontWeight: 'bold', color: '#00b9c6'}}>Leave Form</Text>
 
      <Text style={{fontSize: 20, marginTop: 15}}>From Date:</Text>
      <DatePicker
@@ -102,10 +102,18 @@ render() {
      <Text style={{fontSize: 20, marginTop: 20}}>Balance (After): {this.state.balanceBefore - (((new Date(this.state.toDate) - new Date(this.state.fromDate)) / (1000 * 60 * 60 * 24)) + 1)}</Text>
 
      <TouchableNativeFeedback
-       onPress={this._onPressButton}
+     onPress={() => { Alert.alert(
+'Leave Successfully Submitted!',
+'Please wait for approval.',
+[
+{text: 'Ok! Thank you Jessie!', onPress: () => {this.props.navigation.goBack()}}
+],
+{ cancelable: false }
+)
+}}
        background={TouchableNativeFeedback.SelectableBackground()}>
-       <View style={{width: 150, height: 45, marginTop: 20, marginBottom: 80, backgroundColor: '#00b9c6', justifyContent: 'center', alignItems: 'center'}}>
-         <Text style={{fontSize: 25, fontWeight: 'bold', color: 'white'}}>Submit</Text>
+       <View style={{width: 150, height: 45, borderRadius: 5, marginTop: 20, marginBottom: 80, backgroundColor: '#00b9c6', justifyContent: 'center', alignItems: 'center'}}>
+         <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}}>Submit</Text>
        </View>
      </TouchableNativeFeedback>
    </ScrollView>
